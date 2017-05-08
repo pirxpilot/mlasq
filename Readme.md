@@ -5,6 +5,7 @@
 # mlasq
 
 Yet another indexedDB facade.
+Uses node async callbacks conventsion. Best used with async, run-waterfall etc.
 
 ## Install
 
@@ -17,7 +18,29 @@ $ npm install --save mlasq
 ```js
 var mlasq = require('mlasq');
 
-mlasq('Rainbow');
+
+// create database and storage
+
+var db = mlasq('My DB', [ 'horses', 'cats' ]);
+
+// put, get, count, remove etc.
+var cats = db.store('cats');
+
+cats.put('burek', {
+  'name': 'burek',
+  'age': 3
+}, function() {
+  // 'burek' now in DB
+});
+
+// close and remove db
+db.close(function(err) {
+  console.log('closed now');
+});
+db.remove(function(err) {
+  console.log('all stores removed now');
+});
+
 ```
 
 ## License
