@@ -1,8 +1,8 @@
 var should = require('should');
 var waterfall = require('run-waterfall');
-var mlasq = require('../lib/mlasq');
+var mlasq = require('../lib/dummy');
 
-describe('mlasq', function () {
+describe('dummy mlasq', function () {
   var data = new Uint8Array([1, 2, 3, 4]).buffer;
 
   before(function() {
@@ -28,11 +28,11 @@ describe('mlasq', function () {
         buffers.count('aKey', fn);
       },
       function(count, fn) {
-        count.should.eql(1);
+        count.should.eql(0);
         buffers.get('aKey', fn);
       },
       function(result, fn) {
-        result.should.eql(data);
+        should.not.exist(result);
         buffers.remove('aKey', fn);
       },
       function(result, fn) {
