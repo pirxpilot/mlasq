@@ -1,6 +1,6 @@
 {
   "name": "mlasq",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Yet another indexedDB facade.",
   "author": {
     "name": "Damian Krzeminski",

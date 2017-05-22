@@ -1,4 +1,9 @@
 
+0.1.4 / 2017-05-21
+==================
+
+ * improve checking for indexedDB implementation
+
 0.1.3 / 2017-05-17
 ==================
 
