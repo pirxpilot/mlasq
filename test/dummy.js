@@ -55,4 +55,32 @@ describe('dummy mlasq', function () {
     });
   });
 
+  it('must empty store on clear', function(done) {
+
+    var buffers = this.db.store('buffers');
+
+    waterfall([
+      function(fn) {
+        buffers.put('aKey', data, fn);
+      },
+      function(result, fn) {
+        buffers.put('bKey', data, fn);
+      },
+      function(result, fn) {
+        buffers.clear(fn);
+      },
+      function(result, fn) {
+        buffers.count('aKey', fn);
+      },
+      function(count, fn) {
+        count.should.eql(0);
+        buffers.count('bKey', fn);
+      },
+      function(count, fn) {
+        count.should.eql(0);
+        fn();
+      }
+    ], done);
+  });
+
 });
