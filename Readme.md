@@ -1,6 +1,7 @@
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
-[![Dependency Status][gemnasium-image]][gemnasium-url]
+[![Dependency Status][deps-image]][deps-url]
+[![Dev Dependency Status][deps-dev-image]][deps-dev-url]
 
 # mlasq
 
@@ -53,5 +54,9 @@ MIT © [Damian Krzeminski](https://furkot.com)
 [travis-url]: https://travis-ci.org/pirxpilot/mlasq
 [travis-image]: https://img.shields.io/travis/pirxpilot/mlasq.svg
 
-[gemnasium-image]: https://img.shields.io/gemnasium/pirxpilot/mlasq.svg
-[gemnasium-url]: https://gemnasium.com/pirxpilot/mlasq
+[deps-image]: https://img.shields.io/david/pirxpilot/mlasq.svg
+[deps-url]: https://david-dm.org/pirxpilot/mlasq
+
+[deps-dev-image]: https://img.shields.io/david/dev/pirxpilot/mlasq.svg
+[deps-dev-url]: https://david-dm.org/pirxpilot/mlasq?type=dev
+
