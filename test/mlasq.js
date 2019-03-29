@@ -1,9 +1,9 @@
-var should = require('should');
-var waterfall = require('run-waterfall');
-var mlasq = require('../lib/mlasq');
+const should = require('should');
+const waterfall = require('run-waterfall');
+const mlasq = require('../lib/mlasq');
 
 describe('mlasq', function () {
-  var data = new Uint8Array([1, 2, 3, 4]).buffer;
+  const data = new Uint8Array([1, 2, 3, 4]).buffer;
 
   before(function() {
     this.db = mlasq('mlasq-test', [
@@ -18,7 +18,7 @@ describe('mlasq', function () {
 
   it('must store, count, remove, objects', function (done) {
 
-    var buffers = this.db.store('buffers');
+    const buffers = this.db.store('buffers');
 
     waterfall([
       function(fn) {
@@ -46,7 +46,7 @@ describe('mlasq', function () {
   });
 
   it('must returned empty when not found', function(done) {
-    var objects = this.db.store('objects');
+    const objects = this.db.store('objects');
 
 
     objects.get('oKey', function(err, o) {
@@ -57,7 +57,7 @@ describe('mlasq', function () {
 
   it('must empty store on clear', function(done) {
 
-    var buffers = this.db.store('buffers');
+    const buffers = this.db.store('buffers');
 
     waterfall([
       function(fn) {
