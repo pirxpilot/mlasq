@@ -1,4 +1,10 @@
 
+1.1.0 / 2019-03-30
+==================
+
+ * add atomic update method
+ * fix dummy return values
+
 1.0.0 / 2019-03-29
 ==================
 
