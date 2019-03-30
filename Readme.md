@@ -17,20 +17,21 @@ $ npm install --save mlasq
 ## Usage
 
 ```js
-var mlasq = require('mlasq');
+const mlasq = require('mlasq');
 
 
 // create database and storage
 
-var db = mlasq('My DB', [ 'horses', 'cats' ]);
+const db = mlasq('My DB', [ 'horses', 'cats' ]);
 
 // put, get, count, remove etc.
-var cats = db.store('cats');
+const cats = db.store('cats');
 
 cats.put('burek', {
   'name': 'burek',
   'age': 3
-}, function() {
+}, function(err, key) {
+  assert(key, 'burek');
   // 'burek' now in DB
 });
 
@@ -43,6 +44,35 @@ db.remove(function(err) {
 });
 
 ```
+
+## API
+
+These are the object store methods:
+
+### `put(key, item, fn)`
+
+Puts `item` under the `key`. Returns the `key`.
+
+### `get(key, fn)`
+
+Retrieves `item` identified by `key`.
+
+### `update(key, item, fn)`
+
+Upserts item: if item identified by `key` already exists it is merged (using `Onject.assign`) with the passed `item`.
+Returns the `key` *and* the updated value of the item.
+
+### `remove(key, fn)`
+
+Removes item identified by the `key`.
+
+### `count(key, fn)`
+
+Counts number of items in store.
+
+### `clear(fn)`
+
+Clears the store: removes all the items.
 
 ## License
 
