@@ -25,6 +25,7 @@ describe('mlasq', function () {
         buffers.put('aKey', data, fn);
       },
       function(result, fn) {
+        result.should.eql('aKey');
         buffers.count('aKey', fn);
       },
       function(count, fn) {
@@ -43,6 +44,39 @@ describe('mlasq', function () {
         fn();
       }
     ], done);
+  });
+
+  it('must update object', function(done) {
+    const objects = this.db.store('objects');
+
+
+    waterfall([
+      function(fn) {
+        objects.update('aKey', { a: 1 }, fn);
+      },
+      function(key, result, fn) {
+        key.should.eql('aKey');
+        result.should.eql({ a: 1 });
+        objects.update('aKey', { b: 2 }, fn);
+      },
+      function(key, result, fn) {
+        key.should.eql('aKey');
+        result.should.eql({ a: 1, b: 2 });
+        objects.get('aKey', fn);
+      },
+      function(result, fn) {
+        result.should.eql({ a: 1, b: 2 });
+        objects.remove('aKey', fn);
+      },
+      function(result, fn) {
+        objects.count('aKey', fn);
+      },
+      function(count, fn) {
+        count.should.eql(0);
+        fn();
+      }
+    ], done);
+
   });
 
   it('must returned empty when not found', function(done) {
