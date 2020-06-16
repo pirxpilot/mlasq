@@ -20,6 +20,7 @@ describe('mlasq', function () {
 
     const buffers = this.db.store('buffers');
 
+
     waterfall([
       function(fn) {
         buffers.put('aKey', data, fn);
@@ -44,6 +45,56 @@ describe('mlasq', function () {
         fn();
       }
     ], done);
+  });
+
+  it('must get all stored keys', function (done) {
+
+    const buffers = this.db.store('buffers');
+
+    waterfall([
+      function(fn) {
+        buffers.put('aKey', data, fn);
+      },
+      function(result, fn) {
+        buffers.put('bKey', data, fn);
+      },
+      function(result, fn) {
+        buffers.put('cKey', data, fn);
+      },
+      function(result, fn) {
+        buffers.getAllKeys(fn);
+      },
+      function(result, fn) {
+        result.should.eql([ 'aKey', 'bKey', 'cKey' ]);
+        fn();
+      }
+    ], done);
+
+  });
+
+  it('must get all stored objects', function (done) {
+
+    const objects = this.db.store('objects');
+
+    waterfall([
+      function(fn) {
+        objects.put('aKey', { a: 1 }, fn);
+      },
+      function(result, fn) {
+        objects.put('bKey', { b: 2 }, fn);
+      },
+      function(result, fn) {
+        objects.put('cKey', { c: 3 }, fn);
+      },
+      function(result, fn) {
+        objects.getAll(fn);
+      },
+      function(result, fn) {
+        result.should.eql([ { a: 1 }, { b: 2 }, { c: 3 } ]);
+        fn();
+      }
+    ], done);
+
   });
 
   it('must update object', function(done) {
