@@ -1,4 +1,11 @@
 
+1.2.0 / 2020-06-16
+==================
+
+ * add `getAll` and `getAllKeys`
+ * fix Travis CI config
+ * upgrade dev dependencies
+
 1.1.0 / 2019-03-30
 ==================
 
