@@ -6,7 +6,7 @@
 # mlasq
 
 Yet another indexedDB facade.
-Uses node async callbacks conventsion. Best used with async, run-waterfall etc.
+Uses node async callbacks convention. Best used with async, run-waterfall etc.
 
 ## Install
 
@@ -56,6 +56,14 @@ Puts `item` under the `key`. Returns the `key`.
 ### `get(key, fn)`
 
 Retrieves `item` identified by `key`.
+
+### `getAll(fn)`
+
+Retrieves all items in the store.
+
+### `getAllKeys(fn)`
+
+Retrieves all keys in the store.
 
 ### `update(key, item, fn)`
 
