@@ -1,4 +1,11 @@
 
+1.3.0 / 2020-07-04
+==================
+
+ * add promised based API
+ * handle version upgrade
+ * add support for running tests in the browser
+
 1.2.0 / 2020-06-16
 ==================
 
