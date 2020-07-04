@@ -5,8 +5,7 @@
 
 # mlasq
 
-Yet another indexedDB facade.
-Uses node async callbacks convention. Best used with async, run-waterfall etc.
+Yet another indexedDB facade. Supports callbacks and promises API.
 
 ## Install
 
@@ -15,6 +14,8 @@ $ npm install --save mlasq
 ```
 
 ## Usage
+
+With callbacks:
 
 ```js
 const mlasq = require('mlasq');
@@ -28,10 +29,10 @@ const db = mlasq('My DB', [ 'horses', 'cats' ]);
 const cats = db.store('cats');
 
 cats.put('burek', {
-  'name': 'burek',
-  'age': 3
+  name: 'burek',
+  age: 3
 }, function(err, key) {
-  assert(key, 'burek');
+  assert.equal(key, 'burek');
   // 'burek' now in DB
 });
 
@@ -45,7 +46,42 @@ db.remove(function(err) {
 
 ```
 
+
+With promises:
+
+```js
+const mlasq = require('mlasq');
+
+
+// create database and storage
+
+async function doSometing() {
+  const db = mlasq('My DB', [ 'horses', 'cats' ]);
+
+  // put, get, count, remove etc.
+  const cats = db.store('cats');
+
+  const key = await cats.put('burek', {
+    name: 'burek',
+    age: 3
+  });
+
+  assert.equal(key, 'burek');
+
+  // close and remove db
+  await db.close();
+  console.log('closed now');
+  await db.remove();
+  console.log('all stores removed now');  
+}
+
+```
+
+
+
 ## API
+
+For all methods `fn` callback is optional. If `fn` is not provided `Promise` is returned that resolves to the result.
 
 These are the object store methods:
 
@@ -97,4 +133,3 @@ MIT © [Damian Krzeminski](https://furkot.com)
 
 [deps-dev-image]: https://img.shields.io/david/dev/pirxpilot/mlasq.svg
 [deps-dev-url]: https://david-dm.org/pirxpilot/mlasq?type=dev
-
