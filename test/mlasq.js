@@ -168,4 +168,40 @@ describe('mlasq', function () {
     ], done);
   });
 
+
+  describe('upgrade', function() {
+    const db1 = mlasq('animals', [
+      'horses',
+      'birds'
+    ]);
+    const horses1 = db1.store('horses');
+
+    const db2 = mlasq('animals', [
+      'horses',
+      'insects'
+    ], 2);
+    const horses2 = db2.store('horses');
+
+    after('remove db', function(done) {
+      db2.remove(done);
+    });
+
+    it('clean up stores', function(done) {
+      waterfall([
+        function(fn) {
+          horses1.put('1', { name: 'fast' }, fn);
+        },
+        function(result, fn) {
+          db1.close(fn);
+        },
+        function(fn) {
+          horses2.count('1', fn);
+        },
+        function(count, fn) {
+          count.should.eql(1);
+          fn();
+        }
+      ], done);
+    });
+  });
 });
