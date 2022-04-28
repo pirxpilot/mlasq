@@ -5,14 +5,14 @@ const mlasq = require('../lib/mlasq');
 describe('mlasq callbacks', function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
 
-  before(function() {
+  before(function () {
     this.db = mlasq('mlasq-callback-test', [
       'buffers',
       'objects'
     ]);
   });
 
-  after(function(done) {
+  after(function (done) {
     this.db.remove(done);
   });
 
@@ -22,25 +22,25 @@ describe('mlasq callbacks', function () {
 
 
     waterfall([
-      function(fn) {
+      function (fn) {
         buffers.put('aKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         result.should.eql('aKey');
         buffers.count('aKey', fn);
       },
-      function(count, fn) {
+      function (count, fn) {
         count.should.eql(1);
         buffers.get('aKey', fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         result.should.eql(data);
         buffers.remove('aKey', fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.count('aKey', fn);
       },
-      function(count, fn) {
+      function (count, fn) {
         count.should.eql(0);
         fn();
       }
@@ -52,20 +52,20 @@ describe('mlasq callbacks', function () {
     const buffers = this.db.store('buffers');
 
     waterfall([
-      function(fn) {
+      function (fn) {
         buffers.put('aKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.put('bKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.put('cKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.getAllKeys(fn);
       },
-      function(result, fn) {
-        result.should.eql([ 'aKey', 'bKey', 'cKey' ]);
+      function (result, fn) {
+        result.should.eql(['aKey', 'bKey', 'cKey']);
         fn();
       }
     ], done);
@@ -77,52 +77,52 @@ describe('mlasq callbacks', function () {
     const objects = this.db.store('objects');
 
     waterfall([
-      function(fn) {
+      function (fn) {
         objects.put('aKey', { a: 1 }, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         objects.put('bKey', { b: 2 }, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         objects.put('cKey', { c: 3 }, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         objects.getAll(fn);
       },
-      function(result, fn) {
-        result.should.eql([ { a: 1 }, { b: 2 }, { c: 3 } ]);
+      function (result, fn) {
+        result.should.eql([{ a: 1 }, { b: 2 }, { c: 3 }]);
         fn();
       }
     ], done);
 
   });
 
-  it('must update object', function(done) {
+  it('must update object', function (done) {
     const objects = this.db.store('objects');
 
 
     waterfall([
-      function(fn) {
+      function (fn) {
         objects.update('aKey', { a: 1 }, fn);
       },
-      function(key, result, fn) {
+      function (key, result, fn) {
         key.should.eql('aKey');
         result.should.eql({ a: 1 });
         objects.update('aKey', { b: 2 }, fn);
       },
-      function(key, result, fn) {
+      function (key, result, fn) {
         key.should.eql('aKey');
         result.should.eql({ a: 1, b: 2 });
         objects.get('aKey', fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         result.should.eql({ a: 1, b: 2 });
         objects.remove('aKey', fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         objects.count('aKey', fn);
       },
-      function(count, fn) {
+      function (count, fn) {
         count.should.eql(0);
         fn();
       }
@@ -130,38 +130,38 @@ describe('mlasq callbacks', function () {
 
   });
 
-  it('must returned empty when not found', function(done) {
+  it('must returned empty when not found', function (done) {
     const objects = this.db.store('objects');
 
 
-    objects.get('oKey', function(err, o) {
+    objects.get('oKey', function (err, o) {
       should.not.exist(o);
       done(err);
     });
   });
 
-  it('must empty store on clear', function(done) {
+  it('must empty store on clear', function (done) {
 
     const buffers = this.db.store('buffers');
 
     waterfall([
-      function(fn) {
+      function (fn) {
         buffers.put('aKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.put('bKey', data, fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.clear(fn);
       },
-      function(result, fn) {
+      function (result, fn) {
         buffers.count('aKey', fn);
       },
-      function(count, fn) {
+      function (count, fn) {
         count.should.eql(0);
         buffers.count('bKey', fn);
       },
-      function(count, fn) {
+      function (count, fn) {
         count.should.eql(0);
         fn();
       }
@@ -169,7 +169,7 @@ describe('mlasq callbacks', function () {
   });
 
 
-  describe('upgrade', function() {
+  describe('upgrade', function () {
     const db1 = mlasq('animals', [
       'horses',
       'birds'
@@ -182,24 +182,24 @@ describe('mlasq callbacks', function () {
     ], 2);
     const horses2 = db2.store('horses');
 
-    after('remove db', function(done) {
+    after('remove db', function (done) {
       db2.remove(done);
     });
 
-    it('clean up stores', function(done) {
+    it('clean up stores', function (done) {
       waterfall([
-        function(fn) {
+        function (fn) {
           horses1.put('1', { name: 'fast' }, fn);
         },
-        function(result, fn) {
+        function (result, fn) {
           db1.close(fn);
         },
-        function(fn) {
+        function (fn) {
           horses2.count('1', fn);
         },
-        function(count, fn) {
+        function (count, fn) {
           count.should.eql(1);
-          fn();
+          db2.close(fn);
         }
       ], done);
     });
@@ -210,14 +210,14 @@ describe('mlasq callbacks', function () {
 describe('mlasq promises', function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
 
-  before(function() {
+  before(function () {
     this.db = mlasq('mlasq-promise-test', [
       'buffers',
       'objects'
     ]);
   });
 
-  after(function() {
+  after(function () {
     return this.db.remove();
   });
 
@@ -249,7 +249,7 @@ describe('mlasq promises', function () {
     ]);
 
     const result = await buffers.getAllKeys();
-    result.should.eql([ 'aKey', 'bKey', 'cKey' ]);
+    result.should.eql(['aKey', 'bKey', 'cKey']);
   });
 
   it('must get all stored objects', async function () {
@@ -263,18 +263,18 @@ describe('mlasq promises', function () {
     ]);
 
     const result = await objects.getAll();
-    result.should.eql([ { a: 1 }, { b: 2 }, { c: 3 } ]);
+    result.should.eql([{ a: 1 }, { b: 2 }, { c: 3 }]);
   });
 
-  it('must update object', async function() {
+  it('must update object', async function () {
     const objects = this.db.store('objects');
 
-    let [ key, result ] = await objects.update('aKey', { a: 1 });
+    let [key, result] = await objects.update('aKey', { a: 1 });
 
     key.should.eql('aKey');
     result.should.eql({ a: 1 });
 
-    [ key, result ] = await objects.update('aKey', { b: 2 });
+    [key, result] = await objects.update('aKey', { b: 2 });
 
     key.should.eql('aKey');
     result.should.eql({ a: 1, b: 2 });
@@ -288,13 +288,13 @@ describe('mlasq promises', function () {
     count.should.eql(0);
   });
 
-  it('must returned empty when not found', async function() {
+  it('must returned empty when not found', async function () {
     const objects = this.db.store('objects');
     const o = await objects.get('oKey');
     should.not.exist(o);
   });
 
-  it('must empty store on clear', async function() {
+  it('must empty store on clear', async function () {
     const buffers = this.db.store('buffers');
 
     await Promise.all([
@@ -311,7 +311,7 @@ describe('mlasq promises', function () {
     count.should.eql(0);
   });
 
-  describe('upgrade', function() {
+  describe('upgrade', function () {
     const db1 = mlasq('animals', [
       'horses',
       'birds'
@@ -324,14 +324,15 @@ describe('mlasq promises', function () {
     ], 2);
     const horses2 = db2.store('horses');
 
-    after('remove db', () => db2.remove());
+    after('remove db', () => db1.remove());
 
-    it('clean up stores', async function() {
+    it('clean up stores', async function () {
       await horses1.put('1', { name: 'fast' });
       await db1.close();
 
       const count = await horses2.count('1');
       count.should.eql(1);
+      await db2.close();
     });
   });
 
