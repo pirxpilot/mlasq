@@ -1,5 +1,5 @@
-var mlasq = require('./lib/mlasq');
-var dummy = require('./lib/dummy');
+const mlasq = require('./lib/mlasq');
+const dummy = require('./lib/dummy');
 
 /* global self */
 

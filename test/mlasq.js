@@ -1,25 +1,24 @@
+require('fake-indexeddb/auto');
+
+const { describe, it, after } = require('node:test');
 const should = require('should');
 const waterfall = require('run-waterfall');
 const mlasq = require('../lib/mlasq');
 
 describe('mlasq callbacks', function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
-
-  before(function () {
-    this.db = mlasq('mlasq-callback-test', [
-      'buffers',
-      'objects'
-    ]);
-  });
+  const db = mlasq('mlasq-callback-test', [
+    'buffers',
+    'objects'
+  ]);
 
   after(function (done) {
-    this.db.remove(done);
+    db.remove(done);
   });
 
-  it('must store, count, remove, objects', function (done) {
+  it('must store, count, remove, objects', function (_, done) {
 
-    const buffers = this.db.store('buffers');
-
+    const buffers = db.store('buffers');
 
     waterfall([
       function (fn) {
@@ -47,9 +46,9 @@ describe('mlasq callbacks', function () {
     ], done);
   });
 
-  it('must get all stored keys', function (done) {
+  it('must get all stored keys', function (_, done) {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     waterfall([
       function (fn) {
@@ -72,9 +71,9 @@ describe('mlasq callbacks', function () {
 
   });
 
-  it('must get all stored objects', function (done) {
+  it('must get all stored objects', function (_, done) {
 
-    const objects = this.db.store('objects');
+    const objects = db.store('objects');
 
     waterfall([
       function (fn) {
@@ -97,9 +96,8 @@ describe('mlasq callbacks', function () {
 
   });
 
-  it('must update object', function (done) {
-    const objects = this.db.store('objects');
-
+  it('must update object', function (_, done) {
+    const objects = db.store('objects');
 
     waterfall([
       function (fn) {
@@ -130,8 +128,8 @@ describe('mlasq callbacks', function () {
 
   });
 
-  it('must returned empty when not found', function (done) {
-    const objects = this.db.store('objects');
+  it('must returned empty when not found', function (_, done) {
+    const objects = db.store('objects');
 
 
     objects.get('oKey', function (err, o) {
@@ -140,9 +138,9 @@ describe('mlasq callbacks', function () {
     });
   });
 
-  it('must empty store on clear', function (done) {
+  it('must empty store on clear', function (_, done) {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     waterfall([
       function (fn) {
@@ -182,11 +180,11 @@ describe('mlasq callbacks', function () {
     ], 2);
     const horses2 = db2.store('horses');
 
-    after('remove db', function (done) {
+    after('remove db', function (_, done) {
       db2.remove(done);
     });
 
-    it('clean up stores', function (done) {
+    it('clean up stores', function (_, done) {
       waterfall([
         function (fn) {
           horses1.put('1', { name: 'fast' }, fn);
@@ -207,23 +205,20 @@ describe('mlasq callbacks', function () {
 });
 
 
-describe('mlasq promises', function () {
+describe('mlasq promises', async function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
-
-  before(function () {
-    this.db = mlasq('mlasq-promise-test', [
-      'buffers',
-      'objects'
-    ]);
-  });
+  const db = mlasq('mlasq-promise-test', [
+    'buffers',
+    'objects'
+  ]);
 
   after(function () {
-    return this.db.remove();
+    return db.remove();
   });
 
-  it('must store, count, remove, objects', async function () {
+  await it('must store, count, remove, objects', async function () {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     await buffers.put('aKey', data);
 
@@ -238,9 +233,9 @@ describe('mlasq promises', function () {
     count.should.eql(0);
   });
 
-  it('must get all stored keys', async function () {
+  await it('must get all stored keys', async function () {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     await Promise.all([
       buffers.put('aKey', data),
@@ -252,9 +247,9 @@ describe('mlasq promises', function () {
     result.should.eql(['aKey', 'bKey', 'cKey']);
   });
 
-  it('must get all stored objects', async function () {
+  await it('must get all stored objects', async function () {
 
-    const objects = this.db.store('objects');
+    const objects = db.store('objects');
 
     await Promise.all([
       objects.put('aKey', { a: 1 }),
@@ -266,8 +261,8 @@ describe('mlasq promises', function () {
     result.should.eql([{ a: 1 }, { b: 2 }, { c: 3 }]);
   });
 
-  it('must update object', async function () {
-    const objects = this.db.store('objects');
+  await it('must update object', async function () {
+    const objects = db.store('objects');
 
     let [key, result] = await objects.update('aKey', { a: 1 });
 
@@ -288,14 +283,14 @@ describe('mlasq promises', function () {
     count.should.eql(0);
   });
 
-  it('must returned empty when not found', async function () {
-    const objects = this.db.store('objects');
+  await it('must returned empty when not found', async function () {
+    const objects = db.store('objects');
     const o = await objects.get('oKey');
     should.not.exist(o);
   });
 
-  it('must empty store on clear', async function () {
-    const buffers = this.db.store('buffers');
+  await it('must empty store on clear', async function () {
+    const buffers = db.store('buffers');
 
     await Promise.all([
       buffers.put('aKey', data),
@@ -311,29 +306,27 @@ describe('mlasq promises', function () {
     count.should.eql(0);
   });
 
-  describe('upgrade', function () {
-    const db1 = mlasq('animals', [
+  await describe('upgrade', async function () {
+    const db1 = mlasq('animals-p', [
       'horses',
       'birds'
     ]);
-    const horses1 = db1.store('horses');
-
-    const db2 = mlasq('animals', [
+    const db2 = mlasq('animals-p', [
       'horses',
       'insects'
     ], 2);
-    const horses2 = db2.store('horses');
 
     after('remove db', () => db1.remove());
 
-    it('clean up stores', async function () {
+    await it('clean up stores', async function () {
+      const horses1 = db1.store('horses');
       await horses1.put('1', { name: 'fast' });
       await db1.close();
 
+      const horses2 = db2.store('horses');
       const count = await horses2.count('1');
       count.should.eql(1);
       await db2.close();
     });
   });
-
 });

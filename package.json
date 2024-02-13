@@ -15,11 +15,9 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "browserify": "~16",
-    "electron-mocha": "~11",
-    "jshint": "~2",
-    "mocha": "~9",
-    "run-waterfall": "^1.1.7",
+    "@pirxpilot/jshint": "~3",
+    "fake-indexeddb": "~5",
+    "run-waterfall": "^1",
     "should": "~13"
   },
   "scripts": {

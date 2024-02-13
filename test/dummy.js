@@ -1,24 +1,22 @@
+const { describe, it, after } = require('node:test');
 const should = require('should');
 const waterfall = require('run-waterfall');
 const mlasq = require('../lib/dummy');
 
 describe('dummy mlasq callbacks', function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
+  const db = mlasq('mlasq-test', [
+    'buffers',
+    'objects'
+  ]);
 
-  before(function () {
-    this.db = mlasq('mlasq-test', [
-      'buffers',
-      'objects'
-    ]);
+  after(function (_, done) {
+    db.remove(done);
   });
 
-  after(function (done) {
-    this.db.remove(done);
-  });
+  it('must store, count, remove, objects', function (_, done) {
 
-  it('must store, count, remove, objects', function (done) {
-
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     waterfall([
       function (fn) {
@@ -46,9 +44,8 @@ describe('dummy mlasq callbacks', function () {
     ], done);
   });
 
-  it('must update object', function (done) {
-    const objects = this.db.store('objects');
-
+  it('must update object', function (_, done) {
+    const objects = db.store('objects');
 
     waterfall([
       function (fn) {
@@ -68,8 +65,8 @@ describe('dummy mlasq callbacks', function () {
 
   });
 
-  it('must returned empty when not found', function (done) {
-    const objects = this.db.store('objects');
+  it('must returned empty when not found', function (_, done) {
+    const objects = db.store('objects');
 
 
     objects.get('oKey', function (err, o) {
@@ -78,9 +75,9 @@ describe('dummy mlasq callbacks', function () {
     });
   });
 
-  it('must empty store on clear', function (done) {
+  it('must empty store on clear', function (_, done) {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
 
     waterfall([
       function (fn) {
@@ -109,23 +106,20 @@ describe('dummy mlasq callbacks', function () {
 });
 
 
-describe('dummy mlasq promises', function () {
+describe('dummy mlasq promises', async function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
-
-  before(function () {
-    this.db = mlasq('mlasq-test', [
-      'buffers',
-      'objects'
-    ]);
-  });
+  const db = mlasq('mlasq-test', [
+    'buffers',
+    'objects'
+  ]);
 
   after(function () {
-    return this.db.remove();
+    return db.remove();
   });
 
-  it('must store, count, remove, objects', async function () {
+  await it('must store, count, remove, objects', async function () {
 
-    const buffers = this.db.store('buffers');
+    const buffers = db.store('buffers');
     const key = await buffers.put('aKey', data);
     key.should.eql('aKey');
 
@@ -139,8 +133,8 @@ describe('dummy mlasq promises', function () {
     count.should.eql(0);
   });
 
-  it('must update object', async function () {
-    const objects = this.db.store('objects');
+  await it('must update object', async function () {
+    const objects = db.store('objects');
 
     let [key, result] = await objects.update('aKey', { a: 1 });
     key.should.eql('aKey');
@@ -150,8 +144,8 @@ describe('dummy mlasq promises', function () {
     result.should.eql({ b: 2 });
   });
 
-  it('must returned empty when not found', function (done) {
-    const objects = this.db.store('objects');
+  await it('must returned empty when not found', function (_, done) {
+    const objects = db.store('objects');
 
     objects.get('oKey', function (err, o) {
       should.not.exist(o);
@@ -159,9 +153,8 @@ describe('dummy mlasq promises', function () {
     });
   });
 
-  it('must empty store on clear', async function () {
-
-    const buffers = this.db.store('buffers');
+  await it('must empty store on clear', async function () {
+    const buffers = db.store('buffers');
 
     await buffers.put('aKey', data);
     await buffers.put('bKey', data);
