@@ -1,7 +1,6 @@
 [![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
+[![Build Status][build-image]][build-url]
 [![Dependency Status][deps-image]][deps-url]
-[![Dev Dependency Status][deps-dev-image]][deps-dev-url]
 
 # mlasq
 
@@ -122,14 +121,12 @@ Clears the store: removes all the items.
 
 MIT © [Damian Krzeminski](https://furkot.com)
 
-[npm-image]: https://img.shields.io/npm/v/mlasq.svg
+[npm-image]: https://img.shields.io/npm/v/mlasq
 [npm-url]: https://npmjs.org/package/mlasq
 
-[travis-url]: https://travis-ci.org/pirxpilot/mlasq
-[travis-image]: https://img.shields.io/travis/pirxpilot/mlasq.svg
+[build-url]: https://github.com/pirxpilot/mlasq/actions/workflows/check.yaml
+[build-image]: https://img.shields.io/github/actions/workflow/status/pirxpilot/mlasq/check.yaml?branch=main
 
-[deps-image]: https://img.shields.io/david/pirxpilot/mlasq.svg
-[deps-url]: https://david-dm.org/pirxpilot/mlasq
+[deps-image]: https://img.shields.io/librariesio/release/npm/mlasq
+[deps-url]: https://libraries.io/npm/mlasq
 
-[deps-dev-image]: https://img.shields.io/david/dev/pirxpilot/mlasq.svg
-[deps-dev-url]: https://david-dm.org/pirxpilot/mlasq?type=dev
