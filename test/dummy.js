@@ -4,17 +4,13 @@ const mlasq = require('../lib/dummy');
 
 describe('dummy mlasq', async function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
-  const db = mlasq('mlasq-test', [
-    'buffers',
-    'objects'
-  ]);
+  const db = mlasq('mlasq-test', ['buffers', 'objects']);
 
   after(function () {
     return db.remove();
   });
 
   await it('must store, count, remove, objects', async function () {
-
     const buffers = db.store('buffers');
     const key = await buffers.put('aKey', data);
     key.should.eql('aKey');
@@ -60,5 +56,4 @@ describe('dummy mlasq', async function () {
     const bcount = await buffers.count('bKey');
     bcount.should.eql(0);
   });
-
 });

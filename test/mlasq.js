@@ -6,17 +6,13 @@ const mlasq = require('../lib/mlasq');
 
 describe('mlasq', async function () {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
-  const db = mlasq('mlasq-promise-test', [
-    'buffers',
-    'objects'
-  ]);
+  const db = mlasq('mlasq-promise-test', ['buffers', 'objects']);
 
   after(function () {
     return db.remove();
   });
 
   await it('must store, count, remove, objects', async function () {
-
     const buffers = db.store('buffers');
 
     await buffers.put('aKey', data);
@@ -33,7 +29,6 @@ describe('mlasq', async function () {
   });
 
   await it('must get all stored keys', async function () {
-
     const buffers = db.store('buffers');
 
     await Promise.all([
@@ -47,7 +42,6 @@ describe('mlasq', async function () {
   });
 
   await it('must get all stored objects', async function () {
-
     const objects = db.store('objects');
 
     await Promise.all([
@@ -91,10 +85,7 @@ describe('mlasq', async function () {
   await it('must empty store on clear', async function () {
     const buffers = db.store('buffers');
 
-    await Promise.all([
-      buffers.put('aKey', data),
-      buffers.put('bKey', data)
-    ]);
+    await Promise.all([buffers.put('aKey', data), buffers.put('bKey', data)]);
 
     await buffers.clear();
 
@@ -106,14 +97,8 @@ describe('mlasq', async function () {
   });
 
   await describe('upgrade', async function () {
-    const db1 = mlasq('animals-p', [
-      'horses',
-      'birds'
-    ]);
-    const db2 = mlasq('animals-p', [
-      'horses',
-      'insects'
-    ], 2);
+    const db1 = mlasq('animals-p', ['horses', 'birds']);
+    const db2 = mlasq('animals-p', ['horses', 'insects'], 2);
 
     after('remove db', () => db1.remove());
 
