@@ -7,7 +7,10 @@
     "email": "pirxpilot@code42day.com",
     "url": "https://furkot.com"
   },
-  "repository": "github:pirxpilot/mlasq",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pirxpilot/mlasq.git"
+  },
   "license": "MIT",
   "keywords": [
     "mlasq",
@@ -17,7 +20,6 @@
   "devDependencies": {
     "@pirxpilot/jshint": "~3",
     "fake-indexeddb": "~5",
-    "run-waterfall": "^1",
     "should": "~13"
   },
   "scripts": {

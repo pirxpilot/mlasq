@@ -46,11 +46,6 @@ optymista@^0.1.0:
   resolved "https://registry.yarnpkg.com/optymista/-/optymista-0.1.0.tgz#2e6287d7b10e28f89edee8193a3675218717625a"
   integrity sha512-Z6foasmYw8SZ+RkRI+0D2f/MvazKcSBq4FbEjFCY7hTrMmbQfGjk/lJIhtKhw++UUUKebQtunTuzMnHZGLYihQ==
 
-run-waterfall@^1:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/run-waterfall/-/run-waterfall-1.1.7.tgz#ae368b549b2f5171f86c2924492cab3352a6e9c5"
-  integrity sha512-iFPgh7SatHXOG1ClcpdwHI63geV3Hc/iL6crGSyBlH2PY7Rm/za+zoKz6FfY/Qlw5K7JwSol8pseO8fN6CMhhQ==
-
 should-equal@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/should-equal/-/should-equal-2.0.0.tgz#6072cf83047360867e68e98b09d71143d04ee0c3"
