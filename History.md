@@ -1,4 +1,9 @@
 
+2.0.0 / 2025-02-05
+==================
+
+ * remove callback interface - only promised based API is now supported
+
 1.3.2 / 2024-02-13
 ==================
 
