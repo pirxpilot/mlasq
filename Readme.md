@@ -14,38 +14,6 @@ $ npm install --save mlasq
 
 ## Usage
 
-With callbacks:
-
-```js
-const mlasq = require('mlasq');
-
-
-// create database and storage
-
-const db = mlasq('My DB', [ 'horses', 'cats' ]);
-
-// put, get, count, remove etc.
-const cats = db.store('cats');
-
-cats.put('burek', {
-  name: 'burek',
-  age: 3
-}, function(err, key) {
-  assert.equal(key, 'burek');
-  // 'burek' now in DB
-});
-
-// close and remove db
-db.close(function(err) {
-  console.log('closed now');
-});
-db.remove(function(err) {
-  console.log('all stores removed now');
-});
-
-```
-
-
 With promises:
 
 ```js
@@ -76,44 +44,42 @@ async function doSometing() {
 
 ```
 
-
-
 ## API
 
-For all methods `fn` callback is optional. If `fn` is not provided `Promise` is returned that resolves to the result.
+All methods are asyn - that is a `Promise` is returned that resolves to the result.
 
 These are the object store methods:
 
-### `put(key, item, fn)`
+### `put(key, item)`
 
 Puts `item` under the `key`. Returns the `key`.
 
-### `get(key, fn)`
+### `get(key)`
 
 Retrieves `item` identified by `key`.
 
-### `getAll(fn)`
+### `getAll()`
 
 Retrieves all items in the store.
 
-### `getAllKeys(fn)`
+### `getAllKeys()`
 
 Retrieves all keys in the store.
 
-### `update(key, item, fn)`
+### `update(key, item)`
 
 Upserts item: if item identified by `key` already exists it is merged (using `Onject.assign`) with the passed `item`.
 Returns the `key` *and* the updated value of the item.
 
-### `remove(key, fn)`
+### `remove(key)`
 
 Removes item identified by the `key`.
 
-### `count(key, fn)`
+### `count(key)`
 
 Counts number of items in store.
 
-### `clear(fn)`
+### `clear()`
 
 Clears the store: removes all the items.
 
@@ -129,4 +95,3 @@ MIT © [Damian Krzeminski](https://furkot.com)
 
 [deps-image]: https://img.shields.io/librariesio/release/npm/mlasq
 [deps-url]: https://libraries.io/npm/mlasq
-

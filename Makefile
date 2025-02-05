@@ -1,26 +1,15 @@
-PROJECT=mlasq
-NODE_BIN=./node_modules/.bin
-SRC = index.js $(wildcard lib/*.js)
-TEST_SRC = $(wildcard test/*.js)
-
-all: check compile
-
 check: lint test
 
-build:
-	mkdir -p $@
+lint:
+	./node_modules/.bin/biome ci
 
-node_modules: package.json
-	yarn
-	touch $@
-
-lint: | node_modules
-	$(NODE_BIN)/jshint $(SRC) test
+format:
+	./node_modules/.bin/biome format --write
 
 test:
-	node --require should --test
+	node --require should --test $(TEST_OPTS)
 
-clean:
-	rm -fr build node_modules
+test-cov: TEST_OPTS := --experimental-test-coverage
+test-cov: test
 
-.PHONY: all clean check lint compile test
+.PHONY: check format lint test test-cov
