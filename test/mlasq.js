@@ -20,7 +20,7 @@ describe('mlasq', async function () {
     let count = await buffers.count('aKey');
     count.should.eql(1);
 
-    let result = await buffers.get('aKey');
+    const result = await buffers.get('aKey');
     result.should.eql(data);
 
     await buffers.remove('aKey');
