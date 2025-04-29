@@ -2,6 +2,12 @@
   "name": "mlasq",
   "version": "2.0.0",
   "description": "Yet another indexedDB facade.",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "mlasq": "./lib/mlasq.js",
+    "dummy": "./lib/dummy.js"
+  },
   "author": {
     "name": "Damian Krzeminski",
     "email": "pirxpilot@code42day.com",
@@ -19,8 +25,7 @@
   "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "~1",
-    "fake-indexeddb": "~6",
-    "should": "~13"
+    "fake-indexeddb": "~6"
   },
   "scripts": {
     "test": "make check"
