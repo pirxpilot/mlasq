@@ -12,10 +12,10 @@ test('dummy mlasq', async t => {
     const key = await buffers.put('aKey', data);
     t.assert.equal(key, 'aKey');
 
-    let count = buffers.count('aKey');
+    let count = await buffers.count('aKey');
     t.assert.equal(count, 0);
 
-    const result = buffers.get('aKey');
+    const result = await buffers.get('aKey');
     t.assert.ok(!result);
     await buffers.remove('aKey');
     count = await buffers.count('aKey');
@@ -28,18 +28,16 @@ test('dummy mlasq', async t => {
     let [key, result] = await objects.update('aKey', { a: 1 });
     t.assert.equal(key, 'aKey');
     t.assert.deepEqual(result, { a: 1 });
-    [key, result] = objects.update('aKey', { b: 2 });
+    [key, result] = await objects.update('aKey', { b: 2 });
     t.assert.equal(key, 'aKey');
     t.assert.deepEqual(result, { b: 2 });
   });
 
-  await t.test('must returned empty when not found', function (_, done) {
+  await t.test('must returned empty when not found', async t => {
     const objects = db.store('objects');
 
-    objects.get('oKey', function (err, o) {
-      t.assert.ok(!o);
-      done(err);
-    });
+    const o = await objects.get('oKey');
+    t.assert.ok(!o);
   });
 
   await t.test('must empty store on clear', async t => {
