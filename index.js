@@ -1,14 +1,13 @@
-const mlasq = require('./lib/mlasq');
-const dummy = require('./lib/dummy');
+import dummy from './lib/dummy.js';
+import mlasq from './lib/mlasq.js';
 
-/* global self */
-
-module.exports = detect() ? mlasq : dummy;
+const database = detect() ? mlasq : dummy;
+export default database;
 
 function detect() {
   return (
-    typeof self !== 'undefined' &&
-    'indexedDB' in self &&
-    !('_mlasq_old_browser' in self)
+    typeof globalThis !== 'undefined' &&
+    'indexedDB' in globalThis &&
+    !('_mlasq_old_browser' in globalThis)
   );
 }

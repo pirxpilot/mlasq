@@ -1,5 +1,6 @@
-const test = require('node:test');
-const mlasq = require('../lib/dummy');
+import test from 'node:test';
+import database from '../index.js';
+import mlasq from '../lib/dummy.js';
 
 test('dummy mlasq', async t => {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
@@ -50,5 +51,22 @@ test('dummy mlasq', async t => {
     t.assert.equal(acount, 0);
     const bcount = await buffers.count('bKey');
     t.assert.equal(bcount, 0);
+  });
+});
+
+test('select implementation', async t => {
+  let db;
+
+  t.afterEach(async () => {
+    await db.remove();
+  });
+
+  await t.test('select dummy', async t => {
+    globalThis._mlasq_old_browser = true;
+    db = database('test', ['cats']);
+    const cats = db.store('cats');
+    await cats.put('1', { name: 'fluffy' });
+    const count = await cats.count('1');
+    t.assert.equal(count, 0);
   });
 });

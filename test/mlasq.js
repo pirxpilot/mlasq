@@ -1,7 +1,8 @@
-require('fake-indexeddb/auto');
+import 'fake-indexeddb/auto';
 
-const test = require('node:test');
-const mlasq = require('../lib/mlasq');
+import test from 'node:test';
+import database from '../index.js';
+import mlasq from '../lib/mlasq.js';
 
 test('mlasq', async t => {
   const data = new Uint8Array([1, 2, 3, 4]).buffer;
@@ -109,5 +110,21 @@ test('mlasq', async t => {
       t.assert.equal(count, 1);
       await db2.close();
     });
+  });
+});
+
+test('select implementation', async t => {
+  let db;
+
+  t.afterEach(async () => {
+    await db.remove();
+  });
+
+  await t.test('select mlasq', async t => {
+    db = database('test', ['cats']);
+    const cats = db.store('cats');
+    await cats.put('1', { name: 'fluffy' });
+    const count = await cats.count('1');
+    t.assert.equal(count, 1);
   });
 });

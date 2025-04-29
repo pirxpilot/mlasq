@@ -17,7 +17,7 @@ $ npm install --save mlasq
 With promises:
 
 ```js
-const mlasq = require('mlasq');
+import mlasq from 'mlasq';
 
 
 // create database and storage
