@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "mlasq": "./lib/mlasq.js",
-    "dummy": "./lib/dummy.js"
+    "./mlasq": "./lib/mlasq.js",
+    "./dummy": "./lib/dummy.js"
   },
   "author": {
     "name": "Damian Krzeminski",
