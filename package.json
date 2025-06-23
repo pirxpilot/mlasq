@@ -1,6 +1,6 @@
 {
   "name": "mlasq",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Yet another indexedDB facade.",
   "type": "module",
   "exports": {
